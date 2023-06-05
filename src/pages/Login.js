@@ -39,10 +39,10 @@ function Login() {
   return (
     <>
       <ToastContainer />
-      <div className="grid grid-cols-3">
+      <div className="grid md:grid-cols-3">
         <div></div>{" "}
-        <div className="pt-32 col-span-1 space-y-5">
-          <h5 className="text-3xl text-gray-950 text-center pb-6">
+        <div className="pt-32 col-span-1 space-y-5 mx-6">
+          <h5 className="md:text-3xl text-xl text-gray-950 text-center pb-6">
             Admin Login
           </h5>
           <div>
@@ -71,7 +71,7 @@ function Login() {
               disabled={loginLoader}
               className={`${
                 loginLoader ? "opacity-50" : ""
-              } bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 p-2 px-4 w-1/2 rounded`}
+              } bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 p-2 px-4 w-full rounded`}
             >
               Login
             </button>

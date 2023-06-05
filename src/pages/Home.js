@@ -51,10 +51,10 @@ function Home() {
   }, []);
 
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid md:grid-cols-4">
       <div></div>
       <div className="pt-44  col-span-2">
-        <div className="shadow-md px-10 py-10 rounded-md">
+        <div className="shadow-md px-10 py-10 rounded-md sm:mx-3">
           <h5 className="text-3xl text-gray-950 text-center pb-6">
             Brand finder
           </h5>
@@ -75,12 +75,7 @@ function Home() {
                 onChange={(e) => onChangeHanldeBrand(e)}
               />
             </div>
-            <div className="col-span-2 flex justify-center ...">
-              {" "}
-              {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 p-2 px-4 w-1/2 rounded">
-                Search
-              </button>{" "} */}
-            </div>
+            <div className="col-span-2 flex justify-center ..."></div>
             <div className="col-span-2">
               {tableLoader ? (
                 <div className="flex justify-center py-6">

@@ -109,7 +109,7 @@ function Add() {
   return (
     <>
       <ToastContainer />
-      <div className="grid grid-cols-4">
+      <div className="grid md:grid-cols-4 mx-3">
         <div></div>{" "}
         <div className="pt-44  col-span-2">
           <div className="shadow-md px-10 py-10 rounded-md">
@@ -143,7 +143,7 @@ function Add() {
             <h5 className="text-xl text-gray-950 text-center pb-6">
               Add A Brand name
             </h5>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               <div>
                 <Select
                   className="border-none"
@@ -165,7 +165,7 @@ function Add() {
                   value={brandName}
                   name="brandName"
                   onChange={(e) => setBrandName(e.target.value)}
-                  className="border border-gray-600 border-opacity-25 rounded py-1.5 px-3"
+                  className="border border-gray-600 border-opacity-25 rounded py-1.5 px-3 w-full"
                   required={true}
                   placeholder=" brand Name"
                 />
