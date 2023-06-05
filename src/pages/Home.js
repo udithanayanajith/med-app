@@ -53,8 +53,6 @@ function Home() {
     getAllItems();
   }, []);
 
-  console.log("tableLoader", tableLoader);
-
   return (
     <div className="grid grid-cols-4">
       <div></div>
