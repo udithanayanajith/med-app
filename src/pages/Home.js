@@ -96,7 +96,7 @@ function Home() {
                       <table className="table-auto w-full text-center mt-2">
                         <thead>
                           <tr className="bg-gray-100 py-2 text-sm">
-                            <th className="py-2">Genetic Name.</th>
+                            <th className="py-2">Genetic Name</th>
                             <th>Drug Name</th>
                           </tr>
                         </thead>
