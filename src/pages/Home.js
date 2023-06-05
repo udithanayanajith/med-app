@@ -37,13 +37,10 @@ function Home() {
         `https://orange-wildebeest-hem.cyclic.app/searchDrugs?item=${e?.value}`
       )
       .then((response) => {
-        // Handle the response
-        // console.log(response.data);
         setItems(response.data);
         setTableLoader(false);
       })
       .catch((error) => {
-        // Handle the error
         console.error(error);
         setTableLoader(false);
       });
