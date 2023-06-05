@@ -16,6 +16,8 @@ function Add() {
   const [geneticName, setGeneticName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [selectGeneticName, setSelectGeneticName] = useState("");
+  const [addGeneticNameLoader, setAddGeneticNameLoader] = useState(false);
+  const [addBrandNameLoader, setAddBrandNameLoader] = useState(false);
 
   useEffect(() => {
     getAllItems();
@@ -53,16 +55,21 @@ function Add() {
       toast.error("please add Genetic name!");
     } else {
       try {
+        setAddGeneticNameLoader(true);
         await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added genetic name!");
         getAllItems();
         setGeneticName("");
+        setAddGeneticNameLoader(false);
       } catch (error) {
         if (error?.response?.status === 409) {
           clearTokens();
           storeAccessBool(false);
           navigate("/login");
+          setAddGeneticNameLoader(false);
         }
+        setAddGeneticNameLoader(false);
+        toast.error(error.response.data.error);
       }
     }
   };
@@ -72,16 +79,29 @@ function Add() {
       d_name: selectGeneticName,
       d_brand: brandName,
     };
+    const config = {
+      headers: {
+        authorization: getAccessToken(),
+      },
+    };
     if (!brandName || !selectGeneticName) {
       toast.error("please add brand name and Genetic name!");
     } else {
       try {
-        await axios.post(`${baseAPIUrl}/addDrugs`, data);
+        setAddBrandNameLoader(true);
+        await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added brand name!");
         setBrandName("");
         setSelectGeneticName();
+        setAddBrandNameLoader(false);
       } catch (error) {
         toast.error(error.response.data.error);
+        if (error?.response?.status === 409) {
+          clearTokens();
+          storeAccessBool(false);
+          navigate("/login");
+          setAddBrandNameLoader(false);
+        }
       }
     }
   };
@@ -89,7 +109,7 @@ function Add() {
   return (
     <>
       <ToastContainer />
-      <div className="grid grid-cols-4">
+      <div className="grid md:grid-cols-4 mx-3">
         <div></div>{" "}
         <div className="pt-44  col-span-2">
           <div className="shadow-md px-10 py-10 rounded-md">
@@ -109,7 +129,10 @@ function Add() {
               <div className="col-span-1 flex justify-center ">
                 <button
                   onClick={addGeneticName}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded"
+                  disabled={addGeneticNameLoader}
+                  className={` ${
+                    addGeneticNameLoader ? "opacity-50" : ""
+                  } bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded`}
                 >
                   ADD
                 </button>{" "}
@@ -120,7 +143,7 @@ function Add() {
             <h5 className="text-xl text-gray-950 text-center pb-6">
               Add A Brand name
             </h5>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               <div>
                 <Select
                   className="border-none"
@@ -142,7 +165,7 @@ function Add() {
                   value={brandName}
                   name="brandName"
                   onChange={(e) => setBrandName(e.target.value)}
-                  className="border border-gray-600 border-opacity-25 rounded py-1.5 px-3"
+                  className="border border-gray-600 border-opacity-25 rounded py-1.5 px-3 w-full"
                   required={true}
                   placeholder=" brand Name"
                 />
@@ -151,7 +174,10 @@ function Add() {
                 {" "}
                 <button
                   onClick={addBrandName}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded"
+                  disabled={addBrandNameLoader}
+                  className={` ${
+                    addBrandNameLoader ? " opacity-50" : ""
+                  } bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded`}
                 >
                   ADD
                 </button>
