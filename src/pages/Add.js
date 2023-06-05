@@ -87,6 +87,11 @@ function Add() {
         setSelectGeneticName();
       } catch (error) {
         toast.error(error.response.data.error);
+        if (error?.response?.status === 409) {
+          clearTokens();
+          storeAccessBool(false);
+          navigate("/login");
+        }
       }
     }
   };
