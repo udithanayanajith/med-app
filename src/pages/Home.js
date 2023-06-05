@@ -37,13 +37,10 @@ function Home() {
         `https://orange-wildebeest-hem.cyclic.app/searchDrugs?item=${e?.value}`
       )
       .then((response) => {
-        // Handle the response
-        // console.log(response.data);
         setItems(response.data);
         setTableLoader(false);
       })
       .catch((error) => {
-        // Handle the error
         console.error(error);
         setTableLoader(false);
       });
@@ -96,7 +93,7 @@ function Home() {
                       <table className="table-auto w-full text-center mt-2">
                         <thead>
                           <tr className="bg-gray-100 py-2 text-sm">
-                            <th className="py-2">Genetic Name.</th>
+                            <th className="py-2">Genetic Name</th>
                             <th>Drug Name</th>
                           </tr>
                         </thead>

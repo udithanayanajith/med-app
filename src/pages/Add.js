@@ -2,30 +2,39 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
+import { getAccessToken } from "../utils/tokens";
+import { clearTokens } from "../utils/tokens";
+import { storeAccessBool } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
 function Add() {
+  const baseAPIUrl = `${process.env.REACT_APP_BASE_URL}`;
+  const navigate = useNavigate();
+
   //state anagement
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [geneticName, setGeneticName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [selectGeneticName, setSelectGeneticName] = useState("");
 
+  useEffect(() => {
+    getAllItems();
+  }, []);
+
   //API Handles
   const getAllItems = async () => {
-    axios
-      .get(`https://orange-wildebeest-hem.cyclic.app/allOptions`)
-      .then((res) => {
-        const array = [];
-        res?.data?.options?.map(
-          (item) =>
-            item.d_name &&
-            array.push({
-              value: item.d_name && item.d_name,
-              label: item.d_name && item.d_name,
-            })
-        );
-        setSelectorOptions(array);
-      });
+    axios.get(`${baseAPIUrl}/allOptions`).then((res) => {
+      const array = [];
+      res?.data?.options?.map(
+        (item) =>
+          item.d_name &&
+          array.push({
+            value: item.d_name && item.d_name,
+            label: item.d_name && item.d_name,
+          })
+      );
+      setSelectorOptions(array);
+    });
   };
 
   //API addGeneticName
@@ -34,18 +43,27 @@ function Add() {
       d_name: geneticName,
       d_brand: "",
     };
+    const config = {
+      headers: {
+        authorization: getAccessToken(),
+      },
+    };
+
     if (!geneticName) {
       toast.error("please add Genetic name!");
     } else {
       try {
-        await axios.post(
-          `https://orange-wildebeest-hem.cyclic.app/addDrugs`,
-          data
-        );
+        await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added genetic name!");
         getAllItems();
         setGeneticName("");
-      } catch (error) {}
+      } catch (error) {
+        if (error?.response?.status === 409) {
+          clearTokens();
+          storeAccessBool(false);
+          navigate("/login");
+        }
+      }
     }
   };
 
@@ -58,10 +76,7 @@ function Add() {
       toast.error("please add brand name and Genetic name!");
     } else {
       try {
-        await axios.post(
-          `https://orange-wildebeest-hem.cyclic.app/addDrugs`,
-          data
-        );
+        await axios.post(`${baseAPIUrl}/addDrugs`, data);
         toast.success("Successfully added brand name!");
         setBrandName("");
         setSelectGeneticName();
@@ -70,10 +85,6 @@ function Add() {
       }
     }
   };
-
-  useEffect(() => {
-    getAllItems();
-  }, []);
 
   return (
     <>
@@ -127,7 +138,6 @@ function Add() {
                 />
               </div>
               <div>
-                {" "}
                 <input
                   value={brandName}
                   name="brandName"
