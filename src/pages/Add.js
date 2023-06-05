@@ -72,11 +72,16 @@ function Add() {
       d_name: selectGeneticName,
       d_brand: brandName,
     };
+    const config = {
+      headers: {
+        authorization: getAccessToken(),
+      },
+    };
     if (!brandName || !selectGeneticName) {
       toast.error("please add brand name and Genetic name!");
     } else {
       try {
-        await axios.post(`${baseAPIUrl}/addDrugs`, data);
+        await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added brand name!");
         setBrandName("");
         setSelectGeneticName();
