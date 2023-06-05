@@ -68,6 +68,8 @@ function Add() {
           navigate("/login");
           setAddGeneticNameLoader(false);
         }
+        setAddGeneticNameLoader(false);
+        toast.error(error.response.data.error);
       }
     }
   };
