@@ -105,7 +105,10 @@ function Home() {
                             items?.map((item, index) => {
                               return (
                                 <>
-                                  <tr className="text-sm border-b border-gray-400 border-opacity-40">
+                                  <tr
+                                    key={index}
+                                    className="text-sm border-b border-gray-400 border-opacity-40"
+                                  >
                                     <td className="py-2 ">{item.d_name}</td>
                                     <td
                                       className={`${
