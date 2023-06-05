@@ -127,7 +127,6 @@ function Add() {
                 />
               </div>
               <div>
-                {" "}
                 <input
                   value={brandName}
                   name="brandName"
