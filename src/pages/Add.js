@@ -16,6 +16,8 @@ function Add() {
   const [geneticName, setGeneticName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [selectGeneticName, setSelectGeneticName] = useState("");
+  const [addGeneticNameLoader, setAddGeneticNameLoader] = useState(false);
+  const [addBrandNameLoader, setAddBrandNameLoader] = useState(false);
 
   useEffect(() => {
     getAllItems();
@@ -53,15 +55,18 @@ function Add() {
       toast.error("please add Genetic name!");
     } else {
       try {
+        setAddGeneticNameLoader(true);
         await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added genetic name!");
         getAllItems();
         setGeneticName("");
+        setAddGeneticNameLoader(false);
       } catch (error) {
         if (error?.response?.status === 409) {
           clearTokens();
           storeAccessBool(false);
           navigate("/login");
+          setAddGeneticNameLoader(false);
         }
       }
     }
@@ -81,16 +86,19 @@ function Add() {
       toast.error("please add brand name and Genetic name!");
     } else {
       try {
+        setAddBrandNameLoader(true);
         await axios.post(`${baseAPIUrl}/addDrugs`, data, config);
         toast.success("Successfully added brand name!");
         setBrandName("");
         setSelectGeneticName();
+        setAddBrandNameLoader(false);
       } catch (error) {
         toast.error(error.response.data.error);
         if (error?.response?.status === 409) {
           clearTokens();
           storeAccessBool(false);
           navigate("/login");
+          setAddBrandNameLoader(false);
         }
       }
     }
@@ -119,7 +127,10 @@ function Add() {
               <div className="col-span-1 flex justify-center ">
                 <button
                   onClick={addGeneticName}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded"
+                  disabled={addGeneticNameLoader}
+                  className={` ${
+                    addGeneticNameLoader ? "opacity-50" : ""
+                  } bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded`}
                 >
                   ADD
                 </button>{" "}
@@ -161,7 +172,10 @@ function Add() {
                 {" "}
                 <button
                   onClick={addBrandName}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded"
+                  disabled={addBrandNameLoader}
+                  className={` ${
+                    addBrandNameLoader ? " opacity-50" : ""
+                  } bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 w-full rounded`}
                 >
                   ADD
                 </button>
