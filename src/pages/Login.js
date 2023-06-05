@@ -9,6 +9,7 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginLoader, setLoginLoader] = useState(false);
 
   const loginUser = async () => {
     const data = {
@@ -17,10 +18,12 @@ function Login() {
     };
 
     try {
+      setLoginLoader(true);
       const res = await axios.post(
         `https://orange-wildebeest-hem.cyclic.app/api/login`,
         data
       );
+      setLoginLoader(false);
       toast.success("Successfully logged user!");
       storeAccessToken(res.data?.token);
       storeAccessBool(true);
@@ -28,6 +31,7 @@ function Login() {
     } catch (error) {
       console.log("errors in login", error);
       storeAccessBool(false);
+      setLoginLoader(false);
     }
   };
 
@@ -59,7 +63,10 @@ function Login() {
         <div className="flex justify-center">
           <button
             onClick={loginUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 p-2 px-4 w-1/2 rounded"
+            disabled={loginLoader}
+            className={`${
+              loginLoader ? "opacity-50" : ""
+            } bg-blue-500 hover:bg-blue-700 text-white font-bold mt-8 p-2 px-4 w-1/2 rounded`}
           >
             Login
           </button>
