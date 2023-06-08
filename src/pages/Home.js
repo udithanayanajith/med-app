@@ -4,6 +4,8 @@ import Select from "react-select";
 import { Waveform } from "@uiball/loaders";
 
 function Home() {
+  const baseAPIUrl = `${process.env.REACT_APP_BASE_URL}`;
+
   //state anagement
   const [selectorOptions, setSelectorOptions] = useState([]);
   const [tableLoader, setTableLoader] = useState(false);
@@ -13,29 +15,25 @@ function Home() {
   //API Handles
   const getAllItems = async () => {
     setIsLoadingDropDown(true);
-    axios
-      .get(`https://orange-wildebeest-hem.cyclic.app/allOptions`)
-      .then((res) => {
-        const array = [];
-        res?.data?.options?.map((item) =>
-          item.d_name || item.d_brand
-            ? array.push({
-                value: item.d_name ? item.d_name : item.d_brand,
-                label: item.d_name ? item.d_name : item.d_brand,
-              })
-            : ""
-        );
-        setSelectorOptions(array);
-        setIsLoadingDropDown(false);
-      });
+    axios.get(`${baseAPIUrl}/allOptions`).then((res) => {
+      const array = [];
+      res?.data?.options?.map((item) =>
+        item.d_name || item.d_brand
+          ? array.push({
+              value: item.d_name ? item.d_name : item.d_brand,
+              label: item.d_name ? item.d_name : item.d_brand,
+            })
+          : ""
+      );
+      setSelectorOptions(array);
+      setIsLoadingDropDown(false);
+    });
   };
 
   const onChangeHanldeBrand = async (e) => {
     setTableLoader(true);
     await axios
-      .get(
-        `https://orange-wildebeest-hem.cyclic.app/searchDrugs?item=${e?.value}`
-      )
+      .get(`${baseAPIUrl}/searchDrugs?item=${e?.value}`)
       .then((response) => {
         setItems(response.data);
         setTableLoader(false);
