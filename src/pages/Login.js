@@ -5,6 +5,8 @@ import { storeAccessBool, storeAccessToken } from "../utils/tokens";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const baseAPIUrl = `${process.env.REACT_APP_BASE_URL}`;
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -19,10 +21,7 @@ function Login() {
 
     try {
       setLoginLoader(true);
-      const res = await axios.post(
-        `https://orange-wildebeest-hem.cyclic.app/api/login`,
-        data
-      );
+      const res = await axios.post(`${baseAPIUrl}/api/login`, data);
       setLoginLoader(false);
       toast.success("Successfully logged user!");
       storeAccessToken(res.data?.token);
