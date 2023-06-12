@@ -18,10 +18,10 @@ function Home() {
     axios.get(`${baseAPIUrl}/allOptions`).then((res) => {
       const array = [];
       res?.data?.options?.map((item) =>
-        item.d_name || item.d_brand
+        item
           ? array.push({
-              value: item.d_name ? item.d_name : item.d_brand,
-              label: item.d_name ? item.d_name : item.d_brand,
+              value: item,
+              label: item,
             })
           : ""
       );
@@ -99,14 +99,14 @@ function Home() {
                                     key={index}
                                     className="text-sm border-b border-gray-400 border-opacity-40"
                                   >
-                                    <td className="py-2 ">{item.d_name}</td>
+                                    <td className="py-2 ">{item.gName}</td>
                                     <td
                                       className={`${
-                                        item.d_brand ? "" : "opacity-30 "
+                                        item.dBrand ? "" : "opacity-30 "
                                       }`}
                                     >
-                                      {item.d_brand
-                                        ? item.d_brand
+                                      {item.dBrand
+                                        ? item.dBrand
                                         : "-----------"}
                                     </td>
                                   </tr>
